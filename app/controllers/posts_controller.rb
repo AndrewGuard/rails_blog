@@ -1,10 +1,12 @@
 class PostsController < ApplicationController
 
   #   http_basic_authenticate_with :name => "dhh", :password => "secret", :except => [:index, :show]
-
+  caches_action :index, :show
   # GET /posts
   # GET /posts.json
   def index
+    @posts = Post.all
+
     @posts = Post.all
 
     respond_to do |format|
