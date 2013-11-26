@@ -1,10 +1,12 @@
 class PostsController < ApplicationController
 
   #   http_basic_authenticate_with :name => "dhh", :password => "secret", :except => [:index, :show]
-
+  caches_action :index, :show
   # GET /posts
   # GET /posts.json
   def index
+    @posts = Post.all
+
     @posts = Post.all
 
     respond_to do |format|
@@ -47,6 +49,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
+        expire_action action:[:index,:show]
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render json: @post, status: :created, location: @post }
       else
